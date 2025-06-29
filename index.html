@@ -111,7 +111,7 @@
     canvas.width = window.innerWidth;
 
     let letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()'.split('');
-    let fontSize = 12;
+    let fontSize = 20;
     let columns = canvas.width / fontSize;
     let drops = Array(Math.floor(columns)).fill(1);
 
@@ -130,7 +130,6 @@
     }
     setInterval(draw, 35);
 
-    // Authentication flow
     const authPin = document.getElementById('authPin');
     const processing = document.getElementById('processing');
     const portalPanel = document.getElementById('portalPanel');
