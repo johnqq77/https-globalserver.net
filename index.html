@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Secure Access Portal</title>
+  <title>Global Server UI</title>
   <style>
     html, body {
       margin: 0;
@@ -16,6 +16,8 @@
       overflow: hidden;
     }
     .global-server-container {
+      position: relative;
+      z-index: 1;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -23,15 +25,15 @@
       height: 100vh;
       width: 100vw;
       text-align: center;
-      animation: fadeIn 2s ease-in;
     }
-    .access-panel {
-      background-color: rgba(0, 0, 0, 0.8);
+    .access-panel, .portal-panel {
+      background-color: rgba(0, 0, 0, 0.85);
       border: 2px solid #00ff00;
-      padding: 30px;
+      padding: 20px;
       border-radius: 10px;
-      width: 80%;
-      max-width: 600px;
+      width: 90%;
+      max-width: 700px;
+      margin-bottom: 20px;
     }
     input {
       background: transparent;
@@ -40,52 +42,78 @@
       padding: 10px;
       margin: 10px;
       width: 80%;
+      font-size: 1rem;
     }
-    .matrix-fall {
+    .button {
+      margin: 10px;
+      padding: 10px 20px;
+      background: black;
+      border: 1px solid #00ff00;
+      color: #00ff00;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    .hidden {
+      display: none;
+    }
+    #processing {
+      margin-top: 20px;
+      height: 20px;
+    }
+    .balance-display {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+    canvas {
       position: fixed;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
       z-index: 0;
-      background: black;
-    }
-    canvas {
-      display: block;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
     }
   </style>
 </head>
 <body>
-  <div class="matrix-fall">
-    <canvas id="matrixCanvas"></canvas>
-  </div>
-
+  <canvas id="matrixCanvas"></canvas>
   <div class="global-server-container">
-    <div class="access-panel">
-      <input type="text" placeholder="Enter 6-Digit Bank Access Code" />
-      <input type="text" placeholder="Enter 4-Digit Authentication Pin" />
+    <div class="access-panel" id="authPanel">
+      <input type="text" id="accessCode" placeholder="Enter 6 Digit Bank Access Code" maxlength="6" />
+      <input type="text" id="authPin" placeholder="Enter 4 Digit Authentication Pin" maxlength="4" />
+      <div id="processing"></div>
+    </div>
+
+    <div id="portalPanel" class="portal-panel hidden">
+      <div>WELCOME BACK TETSUJIN! YOU ARE NOW CONNECTED TO THE GLOBAL BANKING SYSTEM.<br>YOUR LAST LOG IN DATE WAS 65 MONTHS AND 24 DAYS AGO.</div>
+      <div class="balance-display">BALANCE: $900,000,000,000,000.00 USD waiting to be loaded to accounts across the globe</div>
+      <button class="button">1.) Global Database Accounts for Visa</button>
+      <button class="button">2.) Global Database Accounts for Mastercard</button>
+      <button class="button">3.) Global Database Accounts for American Express</button>
+      <button class="button" onclick="document.getElementById('loaderPanel').classList.remove('hidden')">4.) Loader Portal</button>
+    </div>
+
+    <div id="loaderPanel" class="portal-panel hidden">
+      <h3>Loader Portal - Reload Accounts</h3>
+      <input type="text" placeholder="Name" />
+      <input type="text" placeholder="Account Number" />
+      <input type="text" placeholder="Card Number" />
+      <input type="text" placeholder="Expiration" />
+      <input type="text" placeholder="CVC" />
+      <input type="text" placeholder="Location" />
+      <input type="text" placeholder="TRN (Auto Provided)" disabled />
+      <input type="text" placeholder="Routing Info (Auto Provided)" disabled />
     </div>
   </div>
 
   <script>
-    // Matrix Falling Letters Animation
     const canvas = document.getElementById('matrixCanvas');
     const ctx = canvas.getContext('2d');
     canvas.height = window.innerHeight;
     canvas.width = window.innerWidth;
 
-    let letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()';
-    letters = letters.split('');
-
+    let letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()'.split('');
     let fontSize = 12;
     let columns = canvas.width / fontSize;
-    let drops = [];
-    for (let x = 0; x < columns; x++)
-      drops[x] = 1;
+    let drops = Array(Math.floor(columns)).fill(1);
 
     function draw() {
       ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
@@ -101,6 +129,37 @@
       }
     }
     setInterval(draw, 35);
+
+    // Authentication flow
+    const authPin = document.getElementById('authPin');
+    const processing = document.getElementById('processing');
+    const portalPanel = document.getElementById('portalPanel');
+    const authPanel = document.getElementById('authPanel');
+
+    function simulateProcessing() {
+      let progress = 0;
+      processing.textContent = "Processing: 0%";
+      const interval = setInterval(() => {
+        progress += Math.floor(Math.random() * 10) + 1;
+        if (progress >= 100) {
+          progress = 100;
+          clearInterval(interval);
+          processing.textContent = "Processing: 100%";
+          setTimeout(() => {
+            authPanel.classList.add("hidden");
+            portalPanel.classList.remove("hidden");
+          }, 500);
+        } else {
+          processing.textContent = `Processing: ${progress}%`;
+        }
+      }, 150);
+    }
+
+    authPin.addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') {
+        simulateProcessing();
+      }
+    });
   </script>
 </body>
 </html>
