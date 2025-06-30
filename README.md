@@ -1,4 +1,11 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Global Server Access</title>
+  <style>
+    body {
       margin: 0;
       background-color: black;
       color: #00ff00;
@@ -18,29 +25,18 @@
       display: block;
     }
 
-    .content {
+    .content, .features-slide {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
       text-align: center;
       z-index: 1;
+      width: 80%;
+      max-width: 800px;
     }
 
-    .content h1 {
-      font-size: 3rem;
-      margin-bottom: 20px;
-    }
-
-    .content p {
-      font-size: 1.2rem;
-    }
-
-    .form {
-      margin-top: 20px;
-    }
-
-    input[type="text"], input[type="password"] {
+    .form input {
       padding: 10px;
       margin: 10px;
       background-color: black;
@@ -73,8 +69,8 @@
     .portals {
       margin-top: 30px;
       text-align: left;
-      padding-left: 25%;
-      padding-right: 25%;
+      padding-left: 5%;
+      padding-right: 5%;
     }
 
     .portals h3 {
@@ -89,6 +85,33 @@
       color: #00ff00;
       border: 1px solid #00ff00;
     }
+
+    .features-slide {
+      display: none;
+      color: #00ff00;
+      font-size: 1.1rem;
+      line-height: 2;
+      text-align: left;
+    }
+
+    .features-slide ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .features-slide ul li::before {
+      content: "✅ ";
+      color: #00ff00;
+    }
+
+    .feature-options ul {
+      list-style: none;
+      margin-top: 20px;
+    }
+
+    .feature-options ul li::before {
+      content: "🔹 ";
+    }
   </style>
 </head>
 <body>
@@ -96,47 +119,48 @@
     <canvas id="matrixCanvas"></canvas>
   </div>
 
-  <div class="content">
+  <div class="content" id="loginSlide">
     <p>Welcome to the encrypted portal for cross-chain blockchain ops and global server configuration. Enter Access.</p>
 
     <div class="form">
-      <input type="text" placeholder="Enter 6 Digit Bank Access Code" maxlength="6"><br/>
-      <input type="password" placeholder="Enter 4 Digit Authentication Pin" maxlength="4"><br/>
-      <button class="portal-btn" onclick="showProgress()">Access Console</button>
+      <input type="text" id="accessCode" placeholder="Enter 6 Digit Bank Access Code" maxlength="6" />
+      <input type="password" id="authPin" placeholder="Enter 4 Digit Authentication Pin" maxlength="4" />
+      <button class="portal-btn" onclick="startAccess()">Access Console</button>
     </div>
 
     <div class="progress" id="progressText"></div>
+  </div>
 
-    <div class="portals" id="portals" style="display:none;">
-      <h3>1.) Global Database Accounts for Visa</h3>
-      <h3>2.) Global Database Accounts for Mastercard</h3>
-      <h3>3.) Global Database Accounts for American Express</h3>
-      <h3>4.) Loader Portal - Reload Visa, Mastercard, AMEX</h3>
+  <div class="features-slide" id="featureSlide">
+    <h2>✅ Features Included:</h2>
+    <ul>
+      <li>Fullscreen matrix-style background with green falling letters</li>
+      <li>Console-style input form with glowing green border</li>
+      <li>Access console with progress bar simulation</li>
+      <li>After 100%, shows portals and fields</li>
+      <li>All CSS and logic included in one file, production-ready</li>
+    </ul>
 
-      <input type="text" placeholder="Account Name">
-      <input type="text" placeholder="Account Number">
-      <input type="text" placeholder="Card Number">
-      <input type="text" placeholder="Expiration (MM/YY)">
-      <input type="text" placeholder="CVC">
-      <input type="text" placeholder="Location">
-      <input type="text" value="Balance: $900,000,000,000,000 USD" readonly>
+    <div class="feature-options">
+      <p>Let me know if you want to:</p>
+      <ul>
+        <li>🔴 Make the letters red instead of green</li>
+        <li>🌐 Deploy it to your custom domain (GitHub Pages or Vercel)</li>
+        <li>🎨 Add a student story, watermark, or audio background</li>
+      </ul>
     </div>
   </div>
 
   <script>
-    // Falling letters
+    // Falling matrix background
     const canvas = document.getElementById('matrixCanvas');
     const ctx = canvas.getContext('2d');
-
     canvas.height = window.innerHeight;
     canvas.width = window.innerWidth;
-
-    let matrix = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%".split("");
-    let fontSize = 18;
-    let columns = canvas.width / fontSize;
-
-    let drops = [];
-    for (let x = 0; x < columns; x++) drops[x] = 1;
+    const matrix = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%".split("");
+    const fontSize = 18;
+    const columns = canvas.width / fontSize;
+    const drops = Array.from({ length: columns }).map(() => 1);
 
     function drawMatrix() {
       ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
@@ -145,30 +169,45 @@
       ctx.font = fontSize + "px monospace";
 
       for (let i = 0; i < drops.length; i++) {
-        let text = matrix[Math.floor(Math.random() * matrix.length)];
+        const text = matrix[Math.floor(Math.random() * matrix.length)];
         ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975)
-          drops[i] = 0;
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
         drops[i]++;
       }
     }
 
     setInterval(drawMatrix, 33);
 
-    // Progress simulation
-    function showProgress() {
-      let progress = 0;
-      let progressText = document.getElementById("progressText");
-      let interval = setInterval(() => {
-        progress += 2;
-        progressText.textContent = `Processing: ${progress}%`;
-        if (progress >= 100) {
-          clearInterval(interval);
-          progressText.textContent = "WELCOME BACK TETSUJIN! YOU ARE NOW CONNECTED TO THE GLOBAL BANKING SYSTEM. YOUR LAST LOG IN DATE WAS 65 MONTHS AND 24 DAYS AGO.";
-          document.getElementById("portals").style.display = "block";
-        }
-      }, 100);
+    // Access logic
+    function startAccess() {
+      const access = document.getElementById('accessCode').value.trim();
+      const pin = document.getElementById('authPin').value.trim();
+      const progressText = document.getElementById("progressText");
+
+      if (access.length === 6 && pin.length === 4) {
+        let progress = 0;
+        const interval = setInterval(() => {
+          progress += 2;
+          progressText.textContent = `Processing: ${progress}%`;
+          if (progress >= 100) {
+            clearInterval(interval);
+            transitionToFeatureSlide();
+          }
+        }, 100);
+      } else {
+        alert("Please enter a 6-digit access code and 4-digit pin.");
+      }
     }
+
+    function transitionToFeatureSlide() {
+      document.getElementById("loginSlide").style.display = "none";
+      document.getElementById("featureSlide").style.display = "block";
+    }
+
+    // Trigger with Enter key
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") startAccess();
+    });
   </script>
 </body>
 </html>
