@@ -200,6 +200,47 @@
     // Trigger with Enter key
     document.addEventListener("keydown", function (e) {
       if (e.key === "Enter") startAccess();
+🔒 Security Center
+🔐 IP Mask: Enabled
+🛰️ IP Trace: Rerouted via Asia Pacific Node
+📡 Node Sync: 99.998% Operational
+🕵️‍♂️ Cloaking: Active
+🔁 OTP Code (Simulated): 372835
+⏱️ Global Time Sync
+7/2/2025, 4:53:41 PM
+📍 Pacific Bank Grid Time
+📡 Transaction Log Feed
+[$4,000,000 withdrawn] [Ford BGC Taguig] [Date: 2020-01-04] [Status: Verified]
+[$3,750,000 sent] [To: Hong Kong Reserve] [Date: 2020-01-03] [Status: Verified]
+[$1,250,000 received] [From: Swiss Vault] [Date: 2020-01-02] [Status: Logged]
+[$9,000,000 sent] [To: London Capital Pool] [Date: 2020-01-01] [Status: Cleared]
+[$6,500,000 received] [From: Tokyo Exchange] [Date: 2019-12-28] [Status: Settled]
+[$5,200,000 sent] [To: Cayman Holdings] [Date: 2019-12-25] [Status: Finalized]
+[$4,500,000 received] [From: Berlin Proxy Node] [Date: 2019-12-21] [Status: Verified]
+[$2,700,000 sent] [To: Abu Dhabi Treasury] [Date: 2019-12-18] [Status: Confirmed]
+[$3,800,000 received] [From: Qatar Finance] [Date: 2019-12-15] [Status: Recorded]
+[$1,300,000 sent] [To: BVI Gateway] [Date: 2019-12-12] [Status: Complete]
+
+[$1,000,000 sent] [Destination: Panama] [Status: Encrypted]
+[$500,000 received] [From: Cayman Vaults] [Status: Verified]
+[$8,500,000 sent] [Destination: Malta] [Status: Processing]
+[$250,000 received] [From: Zurich Node 22] [Status: Secured]
+  
+📥 Download Transaction History
+💻 CryptoHost Bridge
+Connected to BTCnet: node54.cryptohost.global
+
+Bridge Status: LIVE
+
+📈 System Sync & Uptime
+Flow Rate: 842 tx/min
+Data Load Latency: 15ms
+Global Sync Uptime: 99.998%
+    
+    
+    
+    
+    
     });
   </script>
 </body>
