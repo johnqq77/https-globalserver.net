@@ -1,4 +1,12 @@
-
+<!-- Entire code is in HTML. Save this as 'swiss_portal.html' -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Swiss.net | Encrypted Portal</title>
+  <style>
+    body {
       margin: 0;
       background-color: black;
       color: #00ff00;
@@ -59,26 +67,6 @@
       font-size: 1.2rem;
     }
 
-    .portals {
-      margin-top: 30px;
-      text-align: left;
-      padding-left: 5%;
-      padding-right: 5%;
-    }
-
-    .portals h3 {
-      color: #00ff00;
-    }
-
-    .portals input {
-      width: 100%;
-      margin: 5px 0;
-      padding: 10px;
-      background: black;
-      color: #00ff00;
-      border: 1px solid #00ff00;
-    }
-
     .features-slide {
       display: none;
       color: #00ff00;
@@ -113,10 +101,11 @@
   </div>
 
   <div class="content" id="loginSlide">
+    <h1 style="color:#00ff00; font-size: 2.5rem; margin-bottom: 30px;">Swiss.net</h1>
     <p>Welcome to the encrypted portal for cross-chain blockchain ops and global server configuration. Enter Access.</p>
 
     <div class="form">
-      <input type="text" id="accessCode" placeholder="Enter 6 Digit Bank Access Code" maxlength="6" />
+      <input type="password" id="accessCode" placeholder="Enter 6 Digit Bank Access Code" maxlength="6" />
       <input type="password" id="authPin" placeholder="Enter 4 Digit Authentication Pin" maxlength="4" />
       <button class="portal-btn" onclick="startAccess()">Access Console</button>
     </div>
@@ -142,10 +131,11 @@
         <li>🎨 Add a student story, watermark, or audio background</li>
       </ul>
     </div>
+
+    <div id="finalMessage" style="margin-top: 40px;"></div>
   </div>
 
   <script>
-    // Falling matrix background
     const canvas = document.getElementById('matrixCanvas');
     const ctx = canvas.getContext('2d');
     canvas.height = window.innerHeight;
@@ -171,7 +161,6 @@
 
     setInterval(drawMatrix, 33);
 
-    // Access logic
     function startAccess() {
       const access = document.getElementById('accessCode').value.trim();
       const pin = document.getElementById('authPin').value.trim();
@@ -184,6 +173,7 @@
           progressText.textContent = `Processing: ${progress}%`;
           if (progress >= 100) {
             clearInterval(interval);
+            progressText.textContent = "ACCESS GRANTED";
             transitionToFeatureSlide();
           }
         }, 100);
@@ -195,52 +185,44 @@
     function transitionToFeatureSlide() {
       document.getElementById("loginSlide").style.display = "none";
       document.getElementById("featureSlide").style.display = "block";
+
+      typeText("Welcome Back Master Tetsujin", () => {
+        setTimeout(() => {
+          typeText("Your last login was 6 YEARS 7 MONTHS AGO.", () => {
+            setTimeout(() => {
+              typeText("Your COMPRESSED DORMANT ACCOUNTS BALANCE for this year is $913 TRILLION.", () => {
+                setTimeout(() => {
+                  typeText("Master, would you like me to tour you around so you can get yourself familiarized?");
+                }, 1000);
+              });
+            }, 1000);
+          });
+        }, 1000);
+      });
     }
 
-    // Trigger with Enter key
+    function typeText(text, callback, elementId = "finalMessage") {
+      const el = document.getElementById(elementId);
+      let i = 0;
+      let span = document.createElement("p");
+      span.style.marginTop = "10px";
+      el.appendChild(span);
+
+      function type() {
+        if (i < text.length) {
+          span.textContent += text.charAt(i);
+          i++;
+          setTimeout(type, 50);
+        } else if (callback) {
+          callback();
+        }
+      }
+
+      type();
+    }
+
     document.addEventListener("keydown", function (e) {
       if (e.key === "Enter") startAccess();
-🔒 Security Center
-🔐 IP Mask: Enabled
-🛰️ IP Trace: Rerouted via Asia Pacific Node
-📡 Node Sync: 99.998% Operational
-🕵️‍♂️ Cloaking: Active
-🔁 OTP Code (Simulated): 372835
-⏱️ Global Time Sync
-7/2/2025, 4:53:41 PM
-📍 Pacific Bank Grid Time
-📡 Transaction Log Feed
-[$4,000,000 withdrawn] [Ford BGC Taguig] [Date: 2020-01-04] [Status: Verified]
-[$3,750,000 sent] [To: Hong Kong Reserve] [Date: 2020-01-03] [Status: Verified]
-[$1,250,000 received] [From: Swiss Vault] [Date: 2020-01-02] [Status: Logged]
-[$9,000,000 sent] [To: London Capital Pool] [Date: 2020-01-01] [Status: Cleared]
-[$6,500,000 received] [From: Tokyo Exchange] [Date: 2019-12-28] [Status: Settled]
-[$5,200,000 sent] [To: Cayman Holdings] [Date: 2019-12-25] [Status: Finalized]
-[$4,500,000 received] [From: Berlin Proxy Node] [Date: 2019-12-21] [Status: Verified]
-[$2,700,000 sent] [To: Abu Dhabi Treasury] [Date: 2019-12-18] [Status: Confirmed]
-[$3,800,000 received] [From: Qatar Finance] [Date: 2019-12-15] [Status: Recorded]
-[$1,300,000 sent] [To: BVI Gateway] [Date: 2019-12-12] [Status: Complete]
-
-[$1,000,000 sent] [Destination: Panama] [Status: Encrypted]
-[$500,000 received] [From: Cayman Vaults] [Status: Verified]
-[$8,500,000 sent] [Destination: Malta] [Status: Processing]
-[$250,000 received] [From: Zurich Node 22] [Status: Secured]
-  
-📥 Download Transaction History
-💻 CryptoHost Bridge
-Connected to BTCnet: node54.cryptohost.global
-
-Bridge Status: LIVE
-
-📈 System Sync & Uptime
-Flow Rate: 842 tx/min
-Data Load Latency: 15ms
-Global Sync Uptime: 99.998%
-    
-    
-    
-    
-    
     });
   </script>
 </body>
